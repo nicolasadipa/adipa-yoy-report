@@ -5,62 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🚀 ADIPA - Feb 2026 YoY</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
-
     <style>
-        /* Estilos de Login originales de Adipa */
-        body { margin: 0; padding: 0; background-color: #13152a; color: #eae8f0; font-family: 'DM Sans', sans-serif; }
-        .login-screen {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-            display: flex; align-items: center; justify-content: center; z-index: 9999;
-        }
-        .login-box {
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-            border-radius: 20px; padding: 50px; border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center; max-width: 400px; width: 90%;
-        }
+        body { margin: 0; padding: 0; background-color: #13152a; color: #eae8f0; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+        .login-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+        .login-box { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 50px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; max-width: 400px; width: 90%; }
         .login-title { color: white; font-size: 48px; font-weight: 800; margin-bottom: 15px; letter-spacing: 2px; }
-        .login-box input {
-            width: 100%; padding: 15px; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1); color: white; margin-bottom: 20px;
-        }
-        .login-box button {
-            width: 100%; padding: 15px; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
-            border: none; border-radius: 10px; color: white; font-weight: 700; cursor: pointer;
-        }
-        .hidden { display: none !important; }
+        .login-box input { width: 100%; padding: 15px; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.1); color: white; margin-bottom: 20px; font-size: 16px; outline: none; }
+        .login-box button { width: 100%; padding: 15px; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border: none; border-radius: 10px; color: white; font-weight: 700; cursor: pointer; font-size: 16px; transition: transform 0.2s; }
+        .login-box button:hover { transform: scale(1.02); }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useMemo } = React;
         const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = Recharts;
 
-        // Componente de Login (Copia del original)
+        const COLORS = { lavender: "#cec8e0", navy: "#1b2040", purple: "#8b5cf6", cyan: "#22c3f0", darkPurple: "#6b5b8d", lightGray: "#e8e6ec", y2025: "#6b5b8d", y2026: "#8b5cf6", positive: "#34d399", negative: "#f87171", bg: "#13152a", card: "#1c1f3a", text: "#eae8f0", textMuted: "#9994b0", border: "#2e2b4a", accent: "#8b5cf6", sync: "#22c3f0", async: "#f59e0b" };
+        const COUNTRIES = ["Chile", "México", "Colombia"];
+        const programData = { "Curso Sincrónico": { clientes: [ { country: "Chile", t2025: 1200, t2026: 1400, n2025: 520, n2026: 650, r2025: 680, r2026: 750 }, { country: "México", t2025: 320, t2026: 470, n2025: 200, n2026: 300, r2025: 120, r2026: 170 }, { country: "Colombia", t2025: 230, t2026: 330, n2025: 140, n2026: 210, r2025: 90, r2026: 120 } ], ventas: [ { country: "Chile", monto2025: 62000, monto2026: 78000, ped2025: 1100, ped2026: 1300, prod2025: 1350, prod2026: 1700 }, { country: "México", monto2025: 17000, monto2026: 25000, ped2025: 290, ped2026: 420, prod2025: 340, prod2026: 510 }, { country: "Colombia", monto2025: 11000, monto2026: 16000, ped2025: 210, ped2026: 300, prod2025: 250, prod2026: 360 } ] } /* ...otros datos omitidos por brevedad... */ };
+
         const Login = ({ onAccess }) => {
             const [pass, setPass] = useState("");
-            const handleEntry = () => {
-                if (pass === "consejo") onAccess();
-                else alert("Contraseña incorrecta");
-            };
+            const handleEntry = () => pass === "consejo" ? onAccess() : alert("Contraseña incorrecta");
             return (
                 <div className="login-screen">
                     <div className="login-box">
                         <div className="login-title">🚀 ADIPA</div>
-                        <h2 style={{color:'white'}}>Acceso Reporte Feb</h2>
-                        <input 
-                            type="password" 
-                            placeholder="Contraseña" 
-                            onChange={(e) => setPass(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleEntry()}
-                        />
+                        <h2 style={{color:'white', marginBottom: '20px'}}>Acceso Reporte Feb</h2>
+                        <input type="password" placeholder="Contraseña" onChange={(e) => setPass(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleEntry()} autoFocus />
                         <button onClick={handleEntry}>Acceder</button>
                     </div>
                 </div>
@@ -68,11 +46,30 @@
         };
 
         const Dashboard = () => {
-            // Aquí pegas toda la lógica de Recharts que te pasé antes
+            // Lógica de agregado simplificada para el test
+            const data = useMemo(() => programData["Curso Sincrónico"].ventas.map(v => ({
+                country: v.country,
+                "Ene-Feb 2025": v.monto2025,
+                "Ene-Feb 2026": v.monto2026
+            })), []);
+
             return (
-                <div style={{padding: '20px'}}>
-                    <h1>🚀 Reporte de Febrero Cargado</h1>
-                    {/* ... Resto de tus componentes de gráficos ... */}
+                <div style={{ background: COLORS.bg, minHeight: "100vh", padding: "40px" }}>
+                    <h1 style={{ fontSize: '28px', marginBottom: '20px' }}>Dashboard de Ventas - Febrero 2026</h1>
+                    <div style={{ background: COLORS.card, borderRadius: '15px', padding: '30px', border: `1px solid ${COLORS.border}` }}>
+                        <h3 style={{ color: COLORS.textMuted, marginBottom: '20px' }}>COMPARATIVO DE VENTAS (USD)</h3>
+                        <ResponsiveContainer width="100%" height={350}>
+                            <BarChart data={data}>
+                                <CartesianGrid strokeDasharray="3 3" stroke={COLORS.border} vertical={false} />
+                                <XAxis dataKey="country" tick={{fill: COLORS.textMuted}} />
+                                <YAxis tick={{fill: COLORS.textMuted}} />
+                                <Tooltip contentStyle={{backgroundColor: COLORS.card, borderColor: COLORS.border}} />
+                                <Legend />
+                                <Bar dataKey="Ene-Feb 2025" fill={COLORS.y2025} radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="Ene-Feb 2026" fill={COLORS.y2026} radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
             );
         };
