@@ -287,7 +287,7 @@ const LoginScreen = ({ onLogin }) => {
           ADIPA
         </div>
         <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, marginBottom: 12, fontFamily: "'DM Sans', sans-serif" }}>
-          adipa.report/feb26yoy
+          adipa.report/yoy
         </div>
         <div style={{ color: "rgba(255,255,255,0.8)", fontSize: 18, marginBottom: 36, fontFamily: "'DM Sans', sans-serif" }}>
           Unit Economics & Ventas
