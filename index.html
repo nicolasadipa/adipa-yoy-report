@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Adipa</title>
+    <title>🚀 ADIPA - Feb 2026 YoY</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
@@ -12,44 +12,78 @@
     <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
 
     <style>
+        /* Estilos de Login originales de Adipa */
         body { margin: 0; padding: 0; background-color: #13152a; color: #eae8f0; font-family: 'DM Sans', sans-serif; }
-        #root { min-height: 100vh; width: 100%; }
+        .login-screen {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 50px; border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center; max-width: 400px; width: 90%;
+        }
+        .login-title { color: white; font-size: 48px; font-weight: 800; margin-bottom: 15px; letter-spacing: 2px; }
+        .login-box input {
+            width: 100%; padding: 15px; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1); color: white; margin-bottom: 20px;
+        }
+        .login-box button {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+            border: none; border-radius: 10px; color: white; font-weight: 700; cursor: pointer;
+        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        // Importante: Extraer de los objetos globales de las librerías
-        const { useState, useMemo, useEffect } = React;
-        const { 
-            BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
-        } = Recharts;
+        const { useState } = React;
+        const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = Recharts;
 
-        // Aquí va todo tu bloque de COLORS y programData que ya tienes...
-        const COLORS = {
-          y2025: "#6b5b8d", y2026: "#8b5cf6", positive: "#34d399", negative: "#f87171",
-          bg: "#13152a", card: "#1c1f3a", text: "#eae8f0", textMuted: "#9994b0",
-          border: "#2e2b4a", accent: "#8b5cf6", sync: "#22c3f0", async: "#f59e0b",
-        };
-
-        // ... [Mantén aquí todas tus constantes y funciones de lógica del archivo anterior] ...
-
-        function Dashboard() {
-            // Tu componente Dashboard completo aquí...
+        // Componente de Login (Copia del original)
+        const Login = ({ onAccess }) => {
+            const [pass, setPass] = useState("");
+            const handleEntry = () => {
+                if (pass === "consejo") onAccess();
+                else alert("Contraseña incorrecta");
+            };
             return (
-                <div style={{ padding: '40px', textAlign: 'center' }}>
-                    <h1 style={{ color: COLORS.accent }}>Dashboard Cargado</h1>
-                    <p>Si ves este mensaje, el motor de React ya está corriendo.</p>
-                    {/* Aquí van tus gráficos */}
+                <div className="login-screen">
+                    <div className="login-box">
+                        <div className="login-title">🚀 ADIPA</div>
+                        <h2 style={{color:'white'}}>Acceso Reporte Feb</h2>
+                        <input 
+                            type="password" 
+                            placeholder="Contraseña" 
+                            onChange={(e) => setPass(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleEntry()}
+                        />
+                        <button onClick={handleEntry}>Acceder</button>
+                    </div>
                 </div>
             );
-        }
+        };
 
-        // Renderizado con el nuevo estándar de React 18
-        const container = document.getElementById('root');
-        const root = ReactDOM.createRoot(container);
-        root.render(<Dashboard />);
+        const Dashboard = () => {
+            // Aquí pegas toda la lógica de Recharts que te pasé antes
+            return (
+                <div style={{padding: '20px'}}>
+                    <h1>🚀 Reporte de Febrero Cargado</h1>
+                    {/* ... Resto de tus componentes de gráficos ... */}
+                </div>
+            );
+        };
+
+        const Main = () => {
+            const [authorized, setAuthorized] = useState(false);
+            return authorized ? <Dashboard /> : <Login onAccess={() => setAuthorized(true)} />;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Main />);
     </script>
 </body>
 </html>
