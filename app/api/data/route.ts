@@ -6,9 +6,7 @@ import type { ApiResponse } from "@/types";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const bqConfigured =
-    process.env.BQ_DATASET && process.env.BQ_TABLE &&
-    (process.env.BQ_SERVICE_ACCOUNT || process.env.GOOGLE_APPLICATION_CREDENTIALS);
+  const bqConfigured = !!process.env.BQ_SERVICE_ACCOUNT;
 
   if (bqConfigured) {
     try {
